@@ -60,10 +60,11 @@ void Aeroplane::SetWorldPosition(float fX, float fY, float fZ)
 
 void Aeroplane::UpdateMatrices(void)
 {
+	m_v4Rot;
+	m_v4Pos;
 	XMMATRIX mRotX, mRotY, mRotZ, mTrans;
 	XMMATRIX mPlaneCameraRot, mForwardMatrix;
-
-	// [START HERE]
+	//m_WorldMtarix = x * y * z * trans
 
 	// Calculate m_mWorldMatrix for plane based on Euler rotation angles and position data.
 	// i.e. Use XMMatrixRotationX(), XMMatrixRotationY(), XMMatrixRotationZ() and XMMatrixTranslationFromVector to calculate mRotX, mRotY, mRotZ and mTrans from m_v4Rot
