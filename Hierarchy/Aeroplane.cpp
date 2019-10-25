@@ -97,7 +97,7 @@ void Aeroplane::UpdateMatrices(void)
 
 	m_mGunWorldMatrix = mgRotX * mgRotY * mgRotZ * mgTrans * m_mTurretWorldMatrix;
 
-	
+	m_vForwardVector = m_mWorldMatrix.r[2]; // grab forwad vector (the planes z axis)
 
 
 	//m_WorldMtarix = x * y * z * trans
