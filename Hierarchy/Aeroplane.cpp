@@ -113,16 +113,19 @@ void Aeroplane::UpdateMatrices(void)
 	mcRotZ = XMMatrixRotationZ(XMConvertToRadians(m_v4CamRot.z));
 	mcTrans = XMMatrixTranslation(m_v4CamOff.x, m_v4CamOff.y, m_v4CamOff.z);
 
-	XMMATRIX planeFllowMatrix = mRotY * mTrans;
-	m_mCamWorldMatrix = mcRotX * mcRotY * mcRotZ * mcTrans * planeFllowMatrix;
+	XMMATRIX planeFollowMatrix	= mRotY * mTrans; //Only follow Y rotation of Plane
+	XMMATRIX gunFollowMatrix	= mgRotY * mgTrans; //Only follow Y rotation of Gun
+	
 
-	// [Skip this step first time through] Get the forward vector out of the world matrix and put it in m_vForwardVector
 	m_vForwardVector = m_mWorldMatrix.r[2]; // grab forwad vector (the plane's z axis)
 
-	// [Skip this step first time through] Also calculate mPlaneCameraRot which ignores rotations in Z and X for the camera to parent to
 
 
-	// [Skip this step first time through] Switch between parenting the camera to the plane (without X and Z rotations) and the gun based on m_bGunCam
+	//Switch between parenting the camera to the plane (without X and Z rotations) and the gun based on m_bGunCam
+	if (m_bGunCam)
+		m_mCamWorldMatrix = mcRotX * mcRotY * mcRotZ * mcTrans * planeFollowMatrix;
+	else
+		m_mCamWorldMatrix = mcRotX * mcRotY * mcRotZ * mcTrans * gunFollowMatrix;
 
 	// Get the camera's world position (m_vCamWorldPos) out of m_mCameraWorldMatrix
 	//DECOMPOSE MATRIX IN TO POSITION DATA
@@ -136,18 +139,33 @@ void Aeroplane::Update(bool bPlayerControl)
 	// DON'T DO THIS UNTIL YOu HAVE COMPLETED THE FUNCTION ABOVE
 	if(bPlayerControl)
 	{
-		// Step 1: Make the plane pitch upwards when you press "Q" and return to level when released
-		// Maximum pitch = 60 degrees
+		//Up/Down pitch and return if key not held down
+		if (Application::s_pApp->IsKeyPressed('Q') && m_v4Rot.x > -60) {
+			m_v4Rot.x -= 0.5f;
+		} 
+		else if (Application::s_pApp->IsKeyPressed('A') && m_v4Rot.x < 60 && m_fSpeed >= 0.5) { //Additional "takeoff" speed required
+			m_v4Rot.x += 0.5f;
+		}
+		else if (m_v4Rot.x < 0) {
+			m_v4Rot.x += 0.5f;
+		}
+		else if (m_v4Rot.x > 0) {
+			m_v4Rot.x -= 0.5f;
+		}
 
-		// Step 2: Make the plane pitch downwards when you press "A" and return to level when released
-		// You can also impose a take off speed of 0.5 if you like
-		// Minimum pitch = -60 degrees
+		if (Application::s_pApp->IsKeyPressed('O') && m_v4Rot.z > -20) {
+			m_v4Rot.z -= 0.5f;
+		}
+		else if (Application::s_pApp->IsKeyPressed('P') && m_v4Rot.z < 20) {
+			m_v4Rot.z += 0.5f;
+		}
+		else if (m_v4Rot.z < 0) {
+			m_v4Rot.z += 0.5f;
+		}
+		else if (m_v4Rot.z > 0) {
+			m_v4Rot.z -= 0.5f;
+		}
 
-		// Step 3: Make the plane yaw and roll left when you press "O" and return to level when released
-		// Maximum roll = 20 degrees
-
-		// Step 4: Make the plane yaw and roll right when you press "P" and return to level when released
-		// Minimum roll = -20 degrees
 
 	} // End of if player control
 
