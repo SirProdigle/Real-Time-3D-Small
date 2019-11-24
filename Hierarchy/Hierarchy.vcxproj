@@ -57,7 +57,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../Shared/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MinimalRebuild>false</MinimalRebuild>
+      <MinimalRebuild>true</MinimalRebuild>
       <DisableSpecificWarnings>4005</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -89,6 +89,8 @@
     <ClCompile Include="Aeroplane.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="HeightMap.cpp" />
+    <ClCompile Include="Robot.cpp" />
+    <ClCompile Include="RobotPart.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.vcxproj">
@@ -99,6 +101,8 @@
     <ClInclude Include="Aeroplane.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="HeightMap.h" />
+    <ClInclude Include="Robot.h" />
+    <ClInclude Include="RobotPart.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

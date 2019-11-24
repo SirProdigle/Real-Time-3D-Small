@@ -14,6 +14,7 @@
 
 class Aeroplane;
 class HeightMap;
+class Robot;
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -38,6 +39,7 @@ class Application : public CommonApp
 
 	Aeroplane* m_pAeroplane;
 	HeightMap* m_pHeightMap;
+	Robot* m_Robot;
 };
 
 #endif

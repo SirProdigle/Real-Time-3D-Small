@@ -70,8 +70,8 @@ void Aeroplane::UpdateMatrices(void)
 	mRotZ = XMMatrixRotationZ(XMConvertToRadians(m_v4Rot.z));
 	mTrans = XMMatrixTranslation(m_v4Pos.x, m_v4Pos.y, m_v4Pos.z);
 
-	m_mWorldMatrix = mRotX * mRotY * mRotZ * mTrans;
-	
+	m_mWorldMatrix = mRotZ * mRotX * mRotY * mTrans;
+
 
 	// Calculate m_mPropWorldMatrix for propeller based on Euler rotation angles and position data.
 	// Parent the propeller to the plane
@@ -113,9 +113,9 @@ void Aeroplane::UpdateMatrices(void)
 	mcRotZ = XMMatrixRotationZ(XMConvertToRadians(m_v4CamRot.z));
 	mcTrans = XMMatrixTranslation(m_v4CamOff.x, m_v4CamOff.y, m_v4CamOff.z);
 
-	XMMATRIX planeFollowMatrix	= mRotY * mTrans; //Only follow Y rotation of Plane
-	XMMATRIX gunFollowMatrix	= mgRotY * mgTrans; //Only follow Y rotation of Gun
-	
+	XMMATRIX planeFollowMatrix = mRotY * mTrans; //Only follow Y rotation of Plane
+	XMMATRIX gunFollowMatrix = mgRotY * mgTrans; //Only follow Y rotation of Gun
+
 
 	m_vForwardVector = m_mWorldMatrix.r[2]; // grab forwad vector (the plane's z axis)
 
@@ -137,12 +137,12 @@ void Aeroplane::UpdateMatrices(void)
 void Aeroplane::Update(bool bPlayerControl)
 {
 	// DON'T DO THIS UNTIL YOu HAVE COMPLETED THE FUNCTION ABOVE
-	if(bPlayerControl)
+	if (bPlayerControl)
 	{
 		//Up/Down pitch and return if key not held down
 		if (Application::s_pApp->IsKeyPressed('Q') && m_v4Rot.x > -60) {
 			m_v4Rot.x -= 0.5f;
-		} 
+		}
 		else if (Application::s_pApp->IsKeyPressed('A') && m_v4Rot.x < 60 && m_fSpeed >= 0.5) { //Additional "takeoff" speed required
 			m_v4Rot.x += 0.5f;
 		}
@@ -153,17 +153,25 @@ void Aeroplane::Update(bool bPlayerControl)
 			m_v4Rot.x -= 0.5f;
 		}
 
-		if (Application::s_pApp->IsKeyPressed('O') && m_v4Rot.z > -20) {
-			m_v4Rot.z -= 0.5f;
+		if (Application::s_pApp->IsKeyPressed('O')) {
+			if (m_v4Rot.z > -20) {
+				m_v4Rot.z -= 0.5f;
+			}
+			m_v4Rot.y += 0.3f;
 		}
-		else if (Application::s_pApp->IsKeyPressed('P') && m_v4Rot.z < 20) {
-			m_v4Rot.z += 0.5f;
+		else if (Application::s_pApp->IsKeyPressed('P')) {
+			if (m_v4Rot.z < 20) {
+				m_v4Rot.z += 0.5f;
+			}
+			m_v4Rot.y -= 0.3f;
 		}
 		else if (m_v4Rot.z < 0) {
 			m_v4Rot.z += 0.5f;
+			m_v4Rot.y -= 0.1f;
 		}
 		else if (m_v4Rot.z > 0) {
 			m_v4Rot.z -= 0.5f;
+			m_v4Rot.y += 0.1f;
 		}
 
 
@@ -172,7 +180,7 @@ void Aeroplane::Update(bool bPlayerControl)
 	// Apply a forward thrust and limit to a maximum speed of 1
 	m_fSpeed += 0.001f;
 
-	if(m_fSpeed > 1)
+	if (m_fSpeed > 1)
 		m_fSpeed = 1;
 
 	// Rotate propeller and turret
@@ -192,10 +200,10 @@ void Aeroplane::Update(bool bPlayerControl)
 
 void Aeroplane::LoadResources(void)
 {
-	s_pPlaneMesh = CommonMesh::LoadFromXFile(Application::s_pApp, "Resources/Plane/plane.x");
-	s_pPropMesh = CommonMesh::LoadFromXFile(Application::s_pApp, "Resources/Plane/prop.x");
-	s_pTurretMesh = CommonMesh::LoadFromXFile(Application::s_pApp, "Resources/Plane/turret.x");
-	s_pGunMesh = CommonMesh::LoadFromXFile(Application::s_pApp, "Resources/Plane/gun.x");
+	s_pPlaneMesh = CommonMesh::LoadFromXFile(Application::s_pApp, "../Resources/Plane/plane.x");
+	s_pPropMesh = CommonMesh::LoadFromXFile(Application::s_pApp, "../Resources/Plane/prop.x");
+	s_pTurretMesh = CommonMesh::LoadFromXFile(Application::s_pApp, "../Resources/Plane/turret.x");
+	s_pGunMesh = CommonMesh::LoadFromXFile(Application::s_pApp, "../Resources/Plane/gun.x");
 }
 
 void Aeroplane::ReleaseResources(void)

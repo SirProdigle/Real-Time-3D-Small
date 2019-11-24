@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Heightmap.h"
 #include "Aeroplane.h"
+#include "Robot.h"
 
 Application* Application::s_pApp = NULL;
 
@@ -16,11 +17,11 @@ bool Application::HandleStart()
 {
 	s_pApp = this;
 
-	this->SetWindowTitle("Hierarchy");
+	this->SetWindowTitle("Liam Warner b6018527");
 
 	m_bWireframe = false;
-
-	m_pHeightMap = new HeightMap("Resources/heightmap.bmp", 2.0f);
+	m_Robot = new Robot("../Resources/hierarchy.txt");
+	m_pHeightMap = new HeightMap("../Resources/heightmap.bmp", 2.0f);
 	m_pAeroplane = new Aeroplane(0.0f, 3.5f, 0.0f, 105.0f);
 
 	m_pAeroplane->LoadResources();
@@ -147,6 +148,7 @@ void Application::HandleRender()
 	this->SetWorldMatrix(matWorld);
 
 	m_pHeightMap->Draw();
+	m_Robot->Draw();
 	m_pAeroplane->Draw();
 }
 
