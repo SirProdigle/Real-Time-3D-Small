@@ -8,7 +8,7 @@ class RobotPart {
 	std::string partName;
 	RobotPart* parentPart;
 	std::string parentPartName;
-	XMFLOAT3 offset;
+	XMFLOAT4 offset;
 	XMMATRIX offsetMatrix;
 	CommonMesh* mesh;
 
@@ -19,12 +19,12 @@ class RobotPart {
 	friend class Robot;
 
 public:
-	RobotPart(std::string name, std::string parentName, XMFLOAT3 offset, std::string fileName);
+	RobotPart(std::string name, std::string parentName, XMFLOAT4 offset, std::string fileName);
 	~RobotPart();
 
 	
 
-	XMFLOAT3 GetOffset() { return offset; }
+	XMFLOAT4 GetOffset() { return offset; }
 	std::string GetPartName() { return partName; }
 	RobotPart* GetParent() { return parentPart; }
 	std::string GetParentName() { return parentPartName; }

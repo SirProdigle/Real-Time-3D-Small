@@ -5,7 +5,7 @@ void RobotPart::LoadResource(std::string fileName)
 	this->mesh = CommonMesh::LoadFromXFile(Application::s_pApp, fileName.c_str());
 }
 
-RobotPart::RobotPart(std::string name, std::string parentName, XMFLOAT3 offset, std::string fileName) {
+RobotPart::RobotPart(std::string name, std::string parentName, XMFLOAT4 offset, std::string fileName) {
 	LoadResource("../Resources/Components/" + fileName);
 	this->partName = name;
 	this->offset = offset;
@@ -23,10 +23,10 @@ void RobotPart::Draw(XMMATRIX worldMatrix) {
 	XMMATRIX finalWorldMatrix = offsetMatrix;
 	RobotPart* currentPart = this;
 	while (currentPart->parentPart != nullptr) {
-		finalWorldMatrix += currentPart->parentPart->offsetMatrix;
+		finalWorldMatrix *= currentPart->parentPart->offsetMatrix;
 		currentPart = currentPart->parentPart;
 	}
-	finalWorldMatrix += worldMatrix;
+	finalWorldMatrix *= worldMatrix;
 
 	Application::s_pApp->SetWorldMatrix(finalWorldMatrix);
 	if(this->mesh != nullptr)

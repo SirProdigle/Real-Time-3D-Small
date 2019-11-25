@@ -47,6 +47,7 @@ void Application::HandleStop()
 	delete m_pHeightMap;
 	Aeroplane::ReleaseResources();
 	delete m_pAeroplane;
+	delete m_Robot;
 
 	this->CommonApp::HandleStop();
 }

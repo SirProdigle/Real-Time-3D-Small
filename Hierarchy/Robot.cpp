@@ -5,7 +5,7 @@
 
 Robot::Robot(std::string fileName)
 {
-	robotWorldMatrix = XMMatrixTranslation(0, 0, 0);
+	robotWorldMatrix = XMMatrixIdentity();
 	this->CreateParts(fileName); //read file and create robot parts
 
 	//Loop through all parts and set their parents
@@ -43,7 +43,7 @@ void Robot::CreateParts(std::string fileName) {
 			parentName = parentName.substr(1, parentName.length() - 2);
 
 			//process the line into a float3
-			XMFLOAT3 offset = GetOffsetFromLine(offsetString);
+			XMFLOAT4 offset = GetOffsetFromLine(offsetString);
 
 			//Create the part and add it it our map with partName identifier
 			RobotPart* part = new RobotPart(partName, parentName, offset, partName + ".x");
@@ -55,7 +55,7 @@ void Robot::CreateParts(std::string fileName) {
 }
 
 //Continually shorten our string cutting off one float&comma at a time
-XMFLOAT3 Robot::GetOffsetFromLine(std::string line) {
+XMFLOAT4 Robot::GetOffsetFromLine(std::string line) {
 	int xStringSplit = line.find_first_of(',');
 	std::string xString = line.substr(0, xStringSplit);
 
@@ -70,11 +70,11 @@ XMFLOAT3 Robot::GetOffsetFromLine(std::string line) {
 	std::string zString = line.substr(0, zStringSplit);
 
 	//seems to work but possibly a more accurate way to do this
-	float x = stof(xString);
-	float y = stof(yString);
-	float z = stof(zString);
+	double x = std::stod(xString);
+	double y = std::stod(yString);
+	double z = std::stod(zString);
 
-	return XMFLOAT3(x, y, z);
+	return XMFLOAT4(x/10, y/10, z/10, 1); //Divide by 10 for technical reasoning
 
 }
 

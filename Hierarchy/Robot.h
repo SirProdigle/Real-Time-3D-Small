@@ -8,7 +8,7 @@ class Robot
 	XMMATRIX robotWorldMatrix;
 	std::map<std::string, RobotPart* > robotParts;
 
-	XMFLOAT3 GetOffsetFromLine(std::string line);
+	XMFLOAT4 GetOffsetFromLine(std::string line);
 
 
 
