@@ -14,7 +14,7 @@ class Robot
 
 
 public:
-	Robot(std::string fileName);
+	Robot(std::string fileName, XMMATRIX world);
 
 	void CreateParts(std::string fileName);
 	void Draw();

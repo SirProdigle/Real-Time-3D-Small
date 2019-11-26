@@ -40,6 +40,7 @@ class Application : public CommonApp
 	Aeroplane* m_pAeroplane;
 	HeightMap* m_pHeightMap;
 	Robot* m_Robot;
+	Robot* m_Robot2;
 };
 
 #endif

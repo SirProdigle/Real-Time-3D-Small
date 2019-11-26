@@ -16,6 +16,15 @@
     <ClCompile Include="Robot.cpp">
       <Filter>Robot</Filter>
     </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationClip.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationFrame.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -33,6 +42,15 @@
     <ClInclude Include="Robot.h">
       <Filter>Robot</Filter>
     </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationClip.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationFrame.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -46,6 +64,9 @@
     </Filter>
     <Filter Include="Robot">
       <UniqueIdentifier>{68097d69-3352-4a07-b735-852ad9723c05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation">
+      <UniqueIdentifier>{d7e861a6-e9db-421f-adb7-0bc591be5f2e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

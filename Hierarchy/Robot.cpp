@@ -3,9 +3,9 @@
 #include <fstream>
 #include <sstream>
 
-Robot::Robot(std::string fileName)
+Robot::Robot(std::string fileName, XMMATRIX worldMatrix )
 {
-	robotWorldMatrix = XMMatrixIdentity();
+	robotWorldMatrix = worldMatrix;
 	this->CreateParts(fileName); //read file and create robot parts
 
 	//Loop through all parts and set their parents

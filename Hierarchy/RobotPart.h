@@ -1,5 +1,6 @@
 #pragma once
 #include "Application.h"
+#include <map>
 class Robot; //Forward declare
 
 static std::string MODELFOLDER = "../Resources/Components";
@@ -22,7 +23,7 @@ public:
 	RobotPart(std::string name, std::string parentName, XMFLOAT4 offset, std::string fileName);
 	~RobotPart();
 
-	
+	static std::map<std::string, CommonMesh*> partMeshes; //TODO init this
 
 	XMFLOAT4 GetOffset() { return offset; }
 	std::string GetPartName() { return partName; }

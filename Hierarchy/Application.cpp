@@ -15,12 +15,16 @@ const int CAMERA_MAX = 3;
 
 bool Application::HandleStart()
 {
+
+	
+
 	s_pApp = this;
 
 	this->SetWindowTitle("Liam Warner b6018527");
 
 	m_bWireframe = false;
-	m_Robot = new Robot("../Resources/hierarchy.txt");
+	m_Robot = new Robot("../Resources/hierarchy.txt", XMMatrixIdentity());
+	m_Robot2 = new Robot("../Resources/hierarchy.txt", XMMatrixTranslation(5.0f, 0, 0));
 	m_pHeightMap = new HeightMap("../Resources/heightmap.bmp", 2.0f);
 	m_pAeroplane = new Aeroplane(0.0f, 3.5f, 0.0f, 105.0f);
 
@@ -150,6 +154,7 @@ void Application::HandleRender()
 
 	m_pHeightMap->Draw();
 	m_Robot->Draw();
+	m_Robot2->Draw();
 	m_pAeroplane->Draw();
 }
 
