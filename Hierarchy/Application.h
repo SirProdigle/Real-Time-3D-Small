@@ -15,7 +15,6 @@
 class Aeroplane;
 class HeightMap;
 class Robot;
-
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
@@ -23,7 +22,7 @@ class Application : public CommonApp
 {
   public:
 	static Application* s_pApp;
-
+	static bool slowMo;
   protected:
 	bool HandleStart();
 	void HandleStop();

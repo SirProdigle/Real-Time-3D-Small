@@ -19,6 +19,7 @@ RobotPart::RobotPart(std::string name, std::string parentName, XMFLOAT4 offset, 
 	this->offset = offset;
 	this->offsetMatrix = XMMatrixTranslation(offset.x, offset.y, offset.z);
 	this->parentPartName = parentName;
+	this->animOffsetMatrix = XMMatrixTranslation(0, 0, 0);
 
 	//Grab mesh from map if already loaded, or load
 	if ( RobotPart::partMeshes.find(name) != RobotPart::partMeshes.end())  { 
@@ -35,16 +36,21 @@ RobotPart::~RobotPart()
 	delete this->mesh;
 }
 
+void RobotPart::MoveLimb(XMFLOAT3 pos, XMFLOAT3 rot)
+{
+	animOffsetMatrix = XMMatrixRotationX(XMConvertToRadians(rot.x)) * XMMatrixRotationY(XMConvertToRadians(rot.y)) * XMMatrixRotationZ(XMConvertToRadians(rot.z)) * XMMatrixTranslation(pos.x/10,pos.y/10,pos.z/10);
+}
+
 //Root has no mesh
 void RobotPart::Draw(XMMATRIX worldMatrix) {
-	XMMATRIX finalWorldMatrix = offsetMatrix;
+	XMMATRIX finalWorldMatrix = animOffsetMatrix * offsetMatrix;
 	RobotPart* currentPart = this;
 	while (currentPart->parentPart != nullptr) {
-		finalWorldMatrix *= currentPart->parentPart->offsetMatrix;
+		finalWorldMatrix *= currentPart->parentPart->animOffsetMatrix * currentPart->parentPart->offsetMatrix;
 		currentPart = currentPart->parentPart;
 	}
 	finalWorldMatrix *= worldMatrix;
-
+	finalWorldMatrix = finalWorldMatrix;
 	Application::s_pApp->SetWorldMatrix(finalWorldMatrix);
 	if(this->mesh != nullptr)
 		this->mesh->Draw();

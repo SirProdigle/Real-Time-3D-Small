@@ -1,6 +1,7 @@
 #pragma once
 #include "RobotPart.h"
 #include "Application.h"
+#include "Animator.h"
 #include <map>
 
 class Robot
@@ -12,12 +13,12 @@ class Robot
 
 
 
-
 public:
 	Robot(std::string fileName, XMMATRIX world);
-
+	Animator* animator;
 	void CreateParts(std::string fileName);
 	void Draw();
+	void Animate();
 
 	~Robot();
 };

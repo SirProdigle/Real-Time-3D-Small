@@ -2,9 +2,10 @@
 #include "Heightmap.h"
 #include "Aeroplane.h"
 #include "Robot.h"
+#include "Animation.h"
 
 Application* Application::s_pApp = NULL;
-
+bool Application::slowMo = false;
 const int CAMERA_MAP = 0;
 const int CAMERA_PLANE = 1;
 const int CAMERA_GUN = 2;
@@ -23,8 +24,10 @@ bool Application::HandleStart()
 	this->SetWindowTitle("Liam Warner b6018527");
 
 	m_bWireframe = false;
-	m_Robot = new Robot("../Resources/hierarchy.txt", XMMatrixIdentity());
-	m_Robot2 = new Robot("../Resources/hierarchy.txt", XMMatrixTranslation(5.0f, 0, 0));
+	m_Robot = new Robot("../Resources/hierarchy.txt", XMMatrixTranslation(0,2.5,0));
+	m_Robot2 = new Robot("../Resources/hierarchy.txt", XMMatrixTranslation(20.0f, 2.5, 0));
+	m_Robot->animator->SetAnimation("../Resources/Maya Files/RobotAttackAnim.dae");
+	m_Robot2->animator->SetAnimation("../Resources/Maya Files/RobotIdleAnim.dae");
 	m_pHeightMap = new HeightMap("../Resources/heightmap.bmp", 2.0f);
 	m_pAeroplane = new Aeroplane(0.0f, 3.5f, 0.0f, 105.0f);
 
@@ -61,52 +64,94 @@ void Application::HandleStop()
 
 void Application::HandleUpdate()
 {
-	m_rotationAngle += .01f;
-
-	if(m_cameraState == CAMERA_MAP)
-	{
-		if(this->IsKeyPressed('Q'))
-			m_cameraZ -= 2.0f;
-
-		if(this->IsKeyPressed('A'))
-			m_cameraZ += 2.0f;
+	if (this->IsKeyPressed('S')) {
+		if (Application::slowMo == false)
+			Application::slowMo = true;
+		else Application::slowMo = false;
 	}
-
-	static bool dbC = false;
-
-	if(this->IsKeyPressed('C'))
-	{
-		if(!dbC)
-		{
-			if(++m_cameraState == CAMERA_MAX)
-				m_cameraState = CAMERA_MAP;
-
-			dbC = true;
+	if (this->IsKeyPressed('1')) {
+		if (this->IsKeyPressed(VK_UP)) {
+			std::vector<std::string> parts{"root", "body", "left_shoulder", "left_elbow", "left_wrist", "right_shoulder", "right_elbow", "right_wrist", "neck"};
+			m_Robot->animator->SetAnimationForParts(parts, "../Resources/Maya Files/RobotAttackAnim.dae");
+			m_Robot2->animator->SetAnimationForParts(parts, "../Resources/Maya Files/RobotAttackAnim.dae");
+		}
+		else if (this->IsKeyPressed(VK_DOWN)) {
+			std::vector<std::string> parts{"pelvis","left_hip","right_hip","left_ankle","right_ankle","left_knee","right_knee" };
+			m_Robot->animator->SetAnimationForParts(parts, "../Resources/Maya Files/RobotAttackAnim.dae");
+			m_Robot2->animator->SetAnimationForParts(parts, "../Resources/Maya Files/RobotAttackAnim.dae");
+		}
+		else {
+			m_Robot->animator->SetAnimation("../Resources/Maya Files/RobotAttackAnim.dae");
+			m_Robot2->animator->SetAnimation("../Resources/Maya Files/RobotAttackAnim.dae");
 		}
 	}
-	else
-	{
-		dbC = false;
-	}
-
-	static bool dbW = false;
-	if(this->IsKeyPressed('W'))
-	{
-		if(!dbW)
-		{
-			m_bWireframe = !m_bWireframe;
-			this->SetRasterizerState(false, m_bWireframe);
-			dbW = true;
+	if (this->IsKeyPressed('2')) {
+		if (this->IsKeyPressed(VK_UP)) {
+			std::vector<std::string> parts{ "root", "body", "left_shoulder", "left_elbow", "left_wrist", "right_shoulder", "right_elbow", "right_wrist", "neck" };
+			m_Robot->animator->SetAnimationForParts(parts, "../Resources/Maya Files/RobotIdleAnim.dae");
+			m_Robot2->animator->SetAnimationForParts(parts, "../Resources/Maya Files/RobotIdleAnim.dae");
+		}
+		else if (this->IsKeyPressed(VK_DOWN)) {
+			std::vector<std::string> parts{ "pelvis","left_hip","right_hip","left_ankle","right_ankle","left_knee","right_knee" };
+			m_Robot->animator->SetAnimationForParts(parts, "../Resources/Maya Files/RobotIdleAnim.dae");
+			m_Robot2->animator->SetAnimationForParts(parts, "../Resources/Maya Files/RobotIdleAnim.dae");
+		}
+		else {
+			m_Robot->animator->SetAnimation("../Resources/Maya Files/RobotIdleAnim.dae");
+			m_Robot2->animator->SetAnimation("../Resources/Maya Files/RobotIdleAnim.dae");
 		}
 	}
-	else
-	{
-		dbW = false;
+
+		m_Robot->Animate();
+		m_Robot2->Animate();
+
+
+
+		m_rotationAngle += .01f;
+
+		if (m_cameraState == CAMERA_MAP)
+		{
+			if (this->IsKeyPressed('Q'))
+				m_cameraZ -= 2.0f;
+
+			if (this->IsKeyPressed('A'))
+				m_cameraZ += 2.0f;
+		}
+
+		static bool dbC = false;
+
+		if (this->IsKeyPressed('C'))
+		{
+			if (!dbC)
+			{
+				if (++m_cameraState == CAMERA_MAX)
+					m_cameraState = CAMERA_MAP;
+
+				dbC = true;
+			}
+		}
+		else
+		{
+			dbC = false;
+		}
+
+		static bool dbW = false;
+		if (this->IsKeyPressed('W'))
+		{
+			if (!dbW)
+			{
+				m_bWireframe = !m_bWireframe;
+				this->SetRasterizerState(false, m_bWireframe);
+				dbW = true;
+			}
+		}
+		else
+		{
+			dbW = false;
+		}
+
+		m_pAeroplane->Update(m_cameraState != CAMERA_MAP);
 	}
-
-	m_pAeroplane->Update(m_cameraState != CAMERA_MAP);
-}
-
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 

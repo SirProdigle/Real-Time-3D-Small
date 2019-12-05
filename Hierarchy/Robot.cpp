@@ -5,6 +5,7 @@
 
 Robot::Robot(std::string fileName, XMMATRIX worldMatrix )
 {
+	this->animator = new Animator();
 	robotWorldMatrix = worldMatrix;
 	this->CreateParts(fileName); //read file and create robot parts
 
@@ -83,6 +84,25 @@ void Robot::Draw() {
 	for (auto it = robotParts.begin(); it != robotParts.end(); it++)
 	{
 		it->second->Draw(robotWorldMatrix);
+	}
+}
+
+void Robot::Animate()
+{
+	float updateAmount = 0.01f; 
+	if (Application::slowMo)
+		updateAmount *= 0.1f;
+	if (animator->IsPaused())
+		return; //Don't animate if paused
+	else {
+		animator->UpdateAnims(updateAmount);
+		for (auto it = robotParts.begin(); it != robotParts.end(); it++)
+		{
+			RobotPart* currentPart =  it->second;
+			std::string name = currentPart->GetPartName();
+			auto offsets = animator->GetOffsetsForPart(name);
+			currentPart->MoveLimb(offsets.first, offsets.second);
+		}
 	}
 }
 

@@ -19,10 +19,16 @@
     <ClCompile Include="Animator.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationClip.cpp">
+    <ClCompile Include="Animation.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationFrame.cpp">
+    <ClCompile Include="Clip.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="TweenClip.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyFrame.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
   </ItemGroup>
@@ -45,10 +51,19 @@
     <ClInclude Include="Animator.h">
       <Filter>Animation</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationClip.h">
+    <ClInclude Include="Animation.h">
       <Filter>Animation</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationFrame.h">
+    <ClInclude Include="Clip.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="TweenClip.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyFrame.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationEnums.h">
       <Filter>Animation</Filter>
     </ClInclude>
   </ItemGroup>
