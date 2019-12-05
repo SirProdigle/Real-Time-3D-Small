@@ -89,7 +89,7 @@ void Robot::Draw() {
 
 void Robot::Animate()
 {
-	float updateAmount = 0.01f; 
+	float updateAmount = 0.03f; 
 	if (Application::slowMo)
 		updateAmount *= 0.1f;
 	if (animator->IsPaused())
