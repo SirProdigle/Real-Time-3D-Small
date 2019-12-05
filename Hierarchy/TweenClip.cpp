@@ -82,10 +82,11 @@ std::pair<XMFLOAT3, XMFLOAT3> TweenClip::GetOffset()
 		float tweenTotalTrans = abs(clip1->TranslationsX[transplusOne].GetTime() - clip1->TranslationsX[clip1->currTran].GetTime());
 		float amountInTrans = tweenTotalTrans - clip1->currentTimeTrans;
 		float tweenAmountTrans = (amountInTrans / tweenTotalTrans) * 0.1;
-
-		transXLerp = Tween(clip1->TranslationsX[clip1->currTran].GetPosition(), clip1->TranslationsX[transplusOne].GetPosition(), tweenAmountTrans);
-		transYLerp = Tween(clip1->TranslationsY[clip1->currTran].GetPosition(), clip1->TranslationsY[transplusOne].GetPosition(), tweenAmountTrans);
-		transZLerp = Tween(clip1->TranslationsZ[clip1->currTran].GetPosition(), clip1->TranslationsZ[transplusOne].GetPosition(), tweenAmountTrans);
+		if (!Application::slowMo) {
+			transXLerp = Tween(clip1->TranslationsX[clip1->currTran].GetPosition(), clip1->TranslationsX[transplusOne].GetPosition(), tweenAmountTrans);
+			transYLerp = Tween(clip1->TranslationsY[clip1->currTran].GetPosition(), clip1->TranslationsY[transplusOne].GetPosition(), tweenAmountTrans);
+			transZLerp = Tween(clip1->TranslationsZ[clip1->currTran].GetPosition(), clip1->TranslationsZ[transplusOne].GetPosition(), tweenAmountTrans);
+		}
 	}
 
 
@@ -96,10 +97,11 @@ std::pair<XMFLOAT3, XMFLOAT3> TweenClip::GetOffset()
 	tweenAmountRot = (clip1->currentTimeRots - clip1->RotationsX[clip1->currRot].GetTime()) * 10 / (clip1->RotationsX[rotsPlusOne].GetTime() - clip1->RotationsX[clip1->currRot].GetTime()) * 0.1f;
 	tweenAmountRot = max(0, tweenAmountRot);
 	tweenAmountRot = min(1, tweenAmountRot);
-
-	rotXLerp = Tween(clip1->RotationsX[clip1->currRot].GetPosition(), clip1->RotationsX[rotsPlusOne].GetPosition(), tweenAmountRot);
-	rotYLerp = Tween(clip1->RotationsY[clip1->currRot].GetPosition(), clip1->RotationsY[rotsPlusOne].GetPosition(), tweenAmountRot);
-	rotZLerp = Tween(clip1->RotationsZ[clip1->currRot].GetPosition(), clip1->RotationsZ[rotsPlusOne].GetPosition(), tweenAmountRot);
+	if (!Application::slowMo) {
+		rotXLerp = Tween(clip1->RotationsX[clip1->currRot].GetPosition(), clip1->RotationsX[rotsPlusOne].GetPosition(), tweenAmountRot);
+		rotYLerp = Tween(clip1->RotationsY[clip1->currRot].GetPosition(), clip1->RotationsY[rotsPlusOne].GetPosition(), tweenAmountRot);
+		rotZLerp = Tween(clip1->RotationsZ[clip1->currRot].GetPosition(), clip1->RotationsZ[rotsPlusOne].GetPosition(), tweenAmountRot);
+	}
 
 	//Now for clip 2
 
@@ -130,10 +132,11 @@ std::pair<XMFLOAT3, XMFLOAT3> TweenClip::GetOffset()
 		float tweenTotalTrans = abs(clip2->TranslationsX[transplusOne].GetTime() - clip2->TranslationsX[clip2->currTran].GetTime());
 		float amountInTrans = tweenTotalTrans - clip2->currentTimeTrans;
 		float tweenAmountTrans = (amountInTrans / tweenTotalTrans) * 0.1;
-
-		transXLerp2 = Tween(clip2->TranslationsX[clip2->currTran].GetPosition(), clip2->TranslationsX[transplusOne].GetPosition(), tweenAmountTrans);
-		transYLerp2 = Tween(clip2->TranslationsY[clip2->currTran].GetPosition(), clip2->TranslationsY[transplusOne].GetPosition(), tweenAmountTrans);
-		transZLerp2 = Tween(clip2->TranslationsZ[clip2->currTran].GetPosition(), clip2->TranslationsZ[transplusOne].GetPosition(), tweenAmountTrans);
+		if (!Application::slowMo) {
+			transXLerp2 = Tween(clip2->TranslationsX[clip2->currTran].GetPosition(), clip2->TranslationsX[transplusOne].GetPosition(), tweenAmountTrans);
+			transYLerp2 = Tween(clip2->TranslationsY[clip2->currTran].GetPosition(), clip2->TranslationsY[transplusOne].GetPosition(), tweenAmountTrans);
+			transZLerp2 = Tween(clip2->TranslationsZ[clip2->currTran].GetPosition(), clip2->TranslationsZ[transplusOne].GetPosition(), tweenAmountTrans);
+		}
 	}
 
 
@@ -144,10 +147,11 @@ std::pair<XMFLOAT3, XMFLOAT3> TweenClip::GetOffset()
 	tweenAmountRot2 = (clip2->currentTimeRots - clip2->RotationsX[clip2->currRot].GetTime()) * 10 / (clip2->RotationsX[rotsPlusOne].GetTime() - clip2->RotationsX[clip2->currRot].GetTime()) * 0.1f;
 	tweenAmountRot2 = max(0, tweenAmountRot2);
 	tweenAmountRot2 = min(1, tweenAmountRot2);
-
-	rotXLerp2 = Tween(clip2->RotationsX[clip2->currRot].GetPosition(), clip2->RotationsX[rotsPlusOne].GetPosition(), tweenAmountRot2);
-	rotYLerp2 = Tween(clip2->RotationsY[clip2->currRot].GetPosition(), clip2->RotationsY[rotsPlusOne].GetPosition(), tweenAmountRot2);
-	rotZLerp2 = Tween(clip2->RotationsZ[clip2->currRot].GetPosition(), clip2->RotationsZ[rotsPlusOne].GetPosition(), tweenAmountRot2);
+	if (!Application::slowMo) {
+		rotXLerp2 = Tween(clip2->RotationsX[clip2->currRot].GetPosition(), clip2->RotationsX[rotsPlusOne].GetPosition(), tweenAmountRot2);
+		rotYLerp2 = Tween(clip2->RotationsY[clip2->currRot].GetPosition(), clip2->RotationsY[rotsPlusOne].GetPosition(), tweenAmountRot2);
+		rotZLerp2 = Tween(clip2->RotationsZ[clip2->currRot].GetPosition(), clip2->RotationsZ[rotsPlusOne].GetPosition(), tweenAmountRot2);
+	}
 
 
 

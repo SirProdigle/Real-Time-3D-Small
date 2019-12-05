@@ -6,6 +6,7 @@
 
 Application* Application::s_pApp = NULL;
 bool Application::slowMo = false;
+bool Application::planeStop = false;
 const int CAMERA_MAP = 0;
 const int CAMERA_PLANE = 1;
 const int CAMERA_GUN = 2;
@@ -64,6 +65,16 @@ void Application::HandleStop()
 
 void Application::HandleUpdate()
 {
+	if (this->IsKeyPressed(VK_F1)) {
+		m_cameraState = CAMERA_MAP;
+	}
+	if (this->IsKeyPressed(VK_F2)) {
+		m_cameraState = CAMERA_GUN;
+	}
+	if (this->IsKeyPressed('M')) {
+		Application::planeStop = !Application::planeStop;
+	}
+
 	if (this->IsKeyPressed('S')) {
 		if (Application::slowMo == false)
 			Application::slowMo = true;
@@ -107,7 +118,7 @@ void Application::HandleUpdate()
 
 
 
-		m_rotationAngle += .01f;
+		m_rotationAngle += 0.005f;
 
 		if (m_cameraState == CAMERA_MAP)
 		{
@@ -159,6 +170,8 @@ void Application::HandleRender()
 {
 	XMFLOAT3 vUpVector(0.0f, 1.0f, 0.0f);
 	XMFLOAT3 vCamera, vLookat;
+
+
 
 	switch(m_cameraState)
 	{

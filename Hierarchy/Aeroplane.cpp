@@ -141,29 +141,29 @@ void Aeroplane::Update(bool bPlayerControl)
 	{
 		//Up/Down pitch and return if key not held down
 		if (Application::s_pApp->IsKeyPressed('Q') && m_v4Rot.x > -60) {
-			m_v4Rot.x -= 0.5f;
+			m_v4Rot.x -= 1;
 		}
 		else if (Application::s_pApp->IsKeyPressed('A') && m_v4Rot.x < 60 && m_fSpeed >= 0.5) { //Additional "takeoff" speed required
-			m_v4Rot.x += 0.5f;
+			m_v4Rot.x += 1;
 		}
 		else if (m_v4Rot.x < 0) {
-			m_v4Rot.x += 0.5f;
+			m_v4Rot.x += 1;
 		}
 		else if (m_v4Rot.x > 0) {
 			m_v4Rot.x -= 0.5f;
 		}
 
 		if (Application::s_pApp->IsKeyPressed('O')) {
-			if (m_v4Rot.z > -20) {
-				m_v4Rot.z -= 0.5f;
-			}
-			m_v4Rot.y += 0.3f;
-		}
-		else if (Application::s_pApp->IsKeyPressed('P')) {
 			if (m_v4Rot.z < 20) {
-				m_v4Rot.z += 0.5f;
+				m_v4Rot.z += 10;
 			}
 			m_v4Rot.y -= 0.3f;
+		}
+		else if (Application::s_pApp->IsKeyPressed('P')) {
+			if (m_v4Rot.z > -20) {
+				m_v4Rot.z -= 10;
+			}
+			m_v4Rot.y += 0.3f;
 		}
 		else if (m_v4Rot.z < 0) {
 			m_v4Rot.z += 0.5f;
@@ -193,9 +193,11 @@ void Aeroplane::Update(bool bPlayerControl)
 	UpdateMatrices();
 
 	// Move Forward
-	XMVECTOR vCurrPos = XMLoadFloat4(&m_v4Pos);
-	vCurrPos += m_vForwardVector * m_fSpeed;
-	XMStoreFloat4(&m_v4Pos, vCurrPos);
+	if (!Application::planeStop) {
+		XMVECTOR vCurrPos = XMLoadFloat4(&m_v4Pos);
+		vCurrPos += m_vForwardVector * m_fSpeed;
+		XMStoreFloat4(&m_v4Pos, vCurrPos);
+	}
 }
 
 void Aeroplane::LoadResources(void)

@@ -18,42 +18,44 @@ HeightMap::HeightMap(char* filename, float gridSize)
 	int mapIndex = 0;
 
 	XMVECTOR v0, v1, v2, v3;
+	m_HeightMapVtxCount = ((m_HeightMapWidth - 1) * (m_HeightMapLength)) * 4; //New size for vertex nums
+	m_pMapVtxs = new Vertex_Pos3fColour4ubNormal3f[m_HeightMapVtxCount];
 
-	for(int l = 0; l < m_HeightMapLength; ++l)
+
+	int vertexNum = 0;
+	for (int i = 0; i < m_HeightMapLength - 1; i++)
 	{
-		for(int w = 0; w < m_HeightMapWidth; ++w)
+		for (int j = 0; j < m_HeightMapWidth; j++)
 		{
-			if(w < m_HeightMapWidth - 1 && l < m_HeightMapLength - 1)
-			{
-				v0 = XMLoadFloat3(&m_pHeightMap[mapIndex]);
-				v1 = XMLoadFloat3(&m_pHeightMap[mapIndex + 1]);
-				v2 = XMLoadFloat3(&m_pHeightMap[mapIndex + m_HeightMapWidth]);
-				v3 = XMLoadFloat3(&m_pHeightMap[mapIndex + m_HeightMapWidth + 1]);
+			int gridindex = (j + (i*m_HeightMapLength));
 
-				XMVECTOR vA = v0 - v1;
-				XMVECTOR vB = v1 - v2;
-				XMVECTOR vC = v3 - v1;
+			//Grab vectors
+			XMVECTOR origin = XMLoadFloat3(&m_pHeightMap[gridindex]);
+			XMVECTOR originDown = XMLoadFloat3(&m_pHeightMap[gridindex + m_HeightMapWidth]);
+			XMVECTOR originRight = XMLoadFloat3(&m_pHeightMap[gridindex + 1]);
+			//calculate normal
+			XMVECTOR triangleNormal = -XMVector3Normalize(XMVector3Cross(originDown - origin, originRight - originDown));
+			//store back as floats
+			XMFLOAT3 v1, v2, v3, norm1, norm2;
+			XMStoreFloat3(&v1, origin);
+			XMStoreFloat3(&v2, originDown);
+			XMStoreFloat3(&v3, originRight);
+			XMStoreFloat3(&norm1, triangleNormal);
 
-				XMVECTOR vN1, vN2;
-				vN1 = XMVector3Cross(vA, vB);
-				vN1 = XMVector3Normalize(vN1);
-
-				vN2 = XMVector3Cross(vB, vC);
-				vN2 = XMVector3Normalize(vN2);
-
-				VertexColour CUBE_COLOUR;
-
-				m_pMapVtxs[vtxIndex + 0] = Vertex_Pos3fColour4ubNormal3f(v0, MAP_COLOUR, vN1);
-				m_pMapVtxs[vtxIndex + 1] = Vertex_Pos3fColour4ubNormal3f(v1, MAP_COLOUR, vN1);
-				m_pMapVtxs[vtxIndex + 2] = Vertex_Pos3fColour4ubNormal3f(v2, MAP_COLOUR, vN1);
-				m_pMapVtxs[vtxIndex + 3] = Vertex_Pos3fColour4ubNormal3f(v2, MAP_COLOUR, vN2);
-				m_pMapVtxs[vtxIndex + 4] = Vertex_Pos3fColour4ubNormal3f(v1, MAP_COLOUR, vN2);
-				m_pMapVtxs[vtxIndex + 5] = Vertex_Pos3fColour4ubNormal3f(v3, MAP_COLOUR, vN2);
-
-				vtxIndex += 6;
+			//Store the top and bottom vertex for each loop
+			m_pMapVtxs[vertexNum++] = Vertex_Pos3fColour4ubNormal3f(v1, MAP_COLOUR, norm1);
+			m_pMapVtxs[vertexNum++] = Vertex_Pos3fColour4ubNormal3f(v2, MAP_COLOUR, norm1);
+			//If we are the final column, make a degenerative triangle going down at the very end
+			if (j == m_HeightMapLength - 1) {
+				m_pMapVtxs[vertexNum++] = Vertex_Pos3fColour4ubNormal3f(v2, MAP_COLOUR, norm1);
+				DirectX::XMFLOAT3 v3 = m_pHeightMap[gridindex + m_HeightMapWidth - (m_HeightMapLength - 1)];
+				m_pMapVtxs[vertexNum++] = Vertex_Pos3fColour4ubNormal3f(v3, MAP_COLOUR, norm1);
+				m_pMapVtxs[vertexNum++] = Vertex_Pos3fColour4ubNormal3f(v3, MAP_COLOUR, norm1);
 			}
-			mapIndex++;
+
+
 		}
+
 	}
 
 	m_pHeightMapBuffer = CreateImmutableVertexBuffer(Application::s_pApp->GetDevice(), sizeof Vertex_Pos3fColour4ubNormal3f * m_HeightMapVtxCount, m_pMapVtxs);
@@ -72,7 +74,7 @@ HeightMap::~HeightMap()
 
 void HeightMap::Draw(void)
 {
-	Application::s_pApp->DrawUntexturedLit(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST, m_pHeightMapBuffer, NULL, m_HeightMapVtxCount);
+	Application::s_pApp->DrawUntexturedLit(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP, m_pHeightMapBuffer, NULL, m_HeightMapVtxCount);
 }
 
 //////////////////////////////////////////////////////////////////////

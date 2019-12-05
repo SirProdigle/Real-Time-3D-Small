@@ -91,7 +91,7 @@ void Robot::Animate()
 {
 	float updateAmount = 0.01f; 
 	if (Application::slowMo)
-		updateAmount *= 0.1f;
+		updateAmount *= 0.5f;
 	if (animator->IsPaused())
 		return; //Don't animate if paused
 	else {

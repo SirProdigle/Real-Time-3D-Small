@@ -67,10 +67,11 @@ std::pair<XMFLOAT3, XMFLOAT3> Clip::GetOffset()
 		float tweenTotalTrans = abs(TranslationsX[transplusOne].GetTime() - TranslationsX[currTran].GetTime());
 		float amountInTrans = tweenTotalTrans - currentTimeTrans;
 		float tweenAmountTrans = (amountInTrans / tweenTotalTrans) * 0.1;
-
-		transXLerp = Tween(TranslationsX[currTran].GetPosition(), TranslationsX[transplusOne].GetPosition(), tweenAmountTrans);
-		transYLerp = Tween(TranslationsY[currTran].GetPosition(), TranslationsY[transplusOne].GetPosition(), tweenAmountTrans);
-		transZLerp = Tween(TranslationsZ[currTran].GetPosition(), TranslationsZ[transplusOne].GetPosition(), tweenAmountTrans);
+		if (!Application::slowMo) {
+			transXLerp = Tween(TranslationsX[currTran].GetPosition(), TranslationsX[transplusOne].GetPosition(), tweenAmountTrans);
+			transYLerp = Tween(TranslationsY[currTran].GetPosition(), TranslationsY[transplusOne].GetPosition(), tweenAmountTrans);
+			transZLerp = Tween(TranslationsZ[currTran].GetPosition(), TranslationsZ[transplusOne].GetPosition(), tweenAmountTrans);
+		}
 	}
 
 
@@ -81,10 +82,11 @@ std::pair<XMFLOAT3, XMFLOAT3> Clip::GetOffset()
 	tweenAmountRot = (currentTimeRots - RotationsX[currRot].GetTime()) * 10 / (RotationsX[rotsPlusOne].GetTime() - RotationsX[currRot].GetTime()) * 0.1f;
 	tweenAmountRot = max(0, tweenAmountRot) ;
 	tweenAmountRot = min(1, tweenAmountRot) ;
-
-	rotXLerp = Tween(RotationsX[currRot].GetPosition(), RotationsX[rotsPlusOne].GetPosition(), tweenAmountRot);
-	rotYLerp = Tween(RotationsY[currRot].GetPosition(), RotationsY[rotsPlusOne].GetPosition(), tweenAmountRot);
-	rotZLerp = Tween(RotationsZ[currRot].GetPosition(), RotationsZ[rotsPlusOne].GetPosition(), tweenAmountRot);
+	if (!Application::slowMo) {
+		rotXLerp = Tween(RotationsX[currRot].GetPosition(), RotationsX[rotsPlusOne].GetPosition(), tweenAmountRot);
+		rotYLerp = Tween(RotationsY[currRot].GetPosition(), RotationsY[rotsPlusOne].GetPosition(), tweenAmountRot);
+		rotZLerp = Tween(RotationsZ[currRot].GetPosition(), RotationsZ[rotsPlusOne].GetPosition(), tweenAmountRot);
+	}
 	 //rotYLerp = RotationsY[currRot].GetPosition() * (1.0f - (currentTimeRots - RotationsY[currRot].GetTime()) + (RotationsY[rotsPlusOne].GetPosition() * currentTimeRots - RotationsY[currRot].GetTime()));
 	 //rotZLerp = RotationsZ[currRot].GetPosition() * (1.0f - (currentTimeRots - RotationsZ[currRot].GetTime()) + (RotationsZ[rotsPlusOne].GetPosition() * currentTimeRots - RotationsZ[currRot].GetTime()));
 	
