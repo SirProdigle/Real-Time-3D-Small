@@ -26,6 +26,7 @@ bool Application::HandleStart()
 	m_bWireframe = false;
 	m_Robot = new Robot("../Resources/hierarchy.txt", XMMatrixTranslation(0,2.5,0));
 	m_Robot2 = new Robot("../Resources/hierarchy.txt", XMMatrixTranslation(20.0f, 2.5, 0));
+	m_Robot3 = new Robot("../Resources/hierarchy.txt", XMMatrixTranslation(-20.0f, 2.5, 0));
 	m_Robot->animator->SetAnimation("../Resources/Maya Files/RobotAttackAnim.dae");
 	m_Robot2->animator->SetAnimation("../Resources/Maya Files/RobotIdleAnim.dae");
 	m_pHeightMap = new HeightMap("../Resources/heightmap.bmp", 2.0f);
@@ -64,6 +65,12 @@ void Application::HandleStop()
 
 void Application::HandleUpdate()
 {
+	if (this->IsKeyPressed(VK_F1)) {
+		m_cameraState = CAMERA_MAP;
+	}
+	if (this->IsKeyPressed(VK_F2)){
+		m_cameraState = CAMERA_GUN;
+	}
 	if (this->IsKeyPressed('S')) {
 		if (Application::slowMo == false)
 			Application::slowMo = true;
@@ -200,6 +207,7 @@ void Application::HandleRender()
 	m_pHeightMap->Draw();
 	m_Robot->Draw();
 	m_Robot2->Draw();
+	m_Robot3->Draw();
 	m_pAeroplane->Draw();
 }
 

@@ -155,13 +155,13 @@ void Aeroplane::Update(bool bPlayerControl)
 
 		if (Application::s_pApp->IsKeyPressed('O')) {
 			if (m_v4Rot.z > -20) {
-				m_v4Rot.z -= 0.5f;
+				m_v4Rot.z -= 4;
 			}
 			m_v4Rot.y += 0.3f;
 		}
 		else if (Application::s_pApp->IsKeyPressed('P')) {
 			if (m_v4Rot.z < 20) {
-				m_v4Rot.z += 0.5f;
+				m_v4Rot.z += 4;
 			}
 			m_v4Rot.y -= 0.3f;
 		}
