@@ -26,7 +26,7 @@ bool Application::HandleStart()
 	m_bWireframe = false;
 	m_Robot = new Robot("../Resources/hierarchy.txt", XMMatrixTranslation(0,2.5,0));
 	m_Robot2 = new Robot("../Resources/hierarchy.txt", XMMatrixTranslation(20.0f, 2.5, 0));
-	m_Robot3 = new Robot("../Resources/hierarchy.txt", XMMatrixTranslation(-20.0f, 2.5, 0));
+	m_Robot3 = new Robot("../Resources/hierarchy.txt", XMMatrixTranslation(-40.0f, 2.5, 0));
 	m_Robot->animator->SetAnimation("../Resources/Maya Files/RobotAttackAnim.dae");
 	m_Robot2->animator->SetAnimation("../Resources/Maya Files/RobotIdleAnim.dae");
 	m_pHeightMap = new HeightMap("../Resources/heightmap.bmp", 2.0f);
@@ -114,7 +114,7 @@ void Application::HandleUpdate()
 
 
 
-		m_rotationAngle += .01f;
+		m_rotationAngle += .0f;
 
 		if (m_cameraState == CAMERA_MAP)
 		{
