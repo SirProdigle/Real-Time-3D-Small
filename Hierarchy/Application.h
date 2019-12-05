@@ -22,13 +22,13 @@ class Application : public CommonApp
 {
   public:
 	static Application* s_pApp;
-	static bool planeStop;
 	static bool slowMo;
   protected:
 	bool HandleStart();
 	void HandleStop();
 	void HandleUpdate();
 	void HandleRender();
+
   private:
 	float m_rotationAngle;
 	float m_cameraZ;
